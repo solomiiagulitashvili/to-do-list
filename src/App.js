@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { TaskList } from "./components/TaskList";
 import { NewTask } from "./components/NewTask";
+import { Container, Row, Col } from "reactstrap";
 
 class App extends React.Component {
   state = {
@@ -43,13 +44,26 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>To-do list</h1>
-        <NewTask onAddTask={this.handleAddTask} tasksArray={this.state.tasks} />
-        <TaskList
-          tasksList={this.state.tasks}
-          deleteTask={this.deleteTask}
-          completeTask={this.completeTask}
-        />
+        <div className="header">
+          <h1>To-do list</h1>
+        </div>
+        <Container>
+          <Row>
+            <Col xs="12" sm="4">
+              <NewTask
+                onAddTask={this.handleAddTask}
+                tasksArray={this.state.tasks}
+              />
+            </Col>
+            <Col xs="12" sm="8">
+              <TaskList
+                tasksList={this.state.tasks}
+                deleteTask={this.deleteTask}
+                completeTask={this.completeTask}
+              />
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

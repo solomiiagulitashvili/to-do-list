@@ -40,7 +40,7 @@ class NewTask extends React.Component {
     return (
       <div className="new-task">
         <h2>Create new task</h2>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} className="form">
           <FormGroup>
             <Label for="title">Task title</Label>
             <Input
@@ -63,7 +63,11 @@ class NewTask extends React.Component {
               value={text}
             />
           </FormGroup>
-          <Button type="submit" disabled={!this.validate()}>
+          <Button
+            type="submit"
+            disabled={!this.validate()}
+            className="create-button"
+          >
             Create task
           </Button>
         </Form>

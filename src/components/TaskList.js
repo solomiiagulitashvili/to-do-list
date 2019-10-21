@@ -17,10 +17,10 @@ class TaskList extends React.Component {
       tasksTemplate = this.props.tasksList.map(item => {
         return (
           <li className="item" key={item.title}>
-            <Col>
-              <Card body>
-                <CardTitle>{item.title} </CardTitle>
-                <CardText>{item.text} </CardText>
+            <Card body>
+              <CardTitle>{item.title} </CardTitle>
+              <CardText>{item.text} </CardText>
+              <div className="buttons">
                 <Button
                   className={item.done === true ? "complete" : "uncomplete"}
                   onClick={() => {
@@ -30,6 +30,7 @@ class TaskList extends React.Component {
                   {item.done ? "Mark as uncomplete" : "Mark as complete"}
                 </Button>
                 <Button
+                  color="danger"
                   className="delete"
                   onClick={() => {
                     this.handleDelete(item);
@@ -37,8 +38,8 @@ class TaskList extends React.Component {
                 >
                   Delete
                 </Button>
-              </Card>
-            </Col>
+              </div>
+            </Card>
           </li>
         );
       });
@@ -50,6 +51,7 @@ class TaskList extends React.Component {
   render() {
     return (
       <div className="task-list">
+        <h2 className="list-header">Existent tasks</h2>
         <ul className="list">{this.renderTask()}</ul>
       </div>
     );

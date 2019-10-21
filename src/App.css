@@ -4,12 +4,15 @@
   align-items: center;
 }
 .new-task {
-  width: 50%;
+  width: 100%;
   margin: 30px 0;
 }
 .task-list {
-  width: 53%;
+  width: 100%;
   margin: 30px 0;
+}
+.list-header {
+  margin-bottom: 38px;
 }
 
 .list {
@@ -21,12 +24,34 @@
   margin: 10px 0;
 }
 .delete {
-  background-color: #992b29 !important;
+  /* background-color: #992b29 !important; */
   margin-top: 10px;
 }
 .complete {
-  background-color: green !important;
+  background-color: #28a745 !important;
 }
 .uncomplete {
   background-color: #6c757d;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.create-button {
+  align-self: flex-end;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.btn {
+  margin-left: 10px;
+}
+.header {
+  background-color: #007bff;
+  width: 100%;
+  color: whitesmoke;
+  padding-left: 30px;
 }
