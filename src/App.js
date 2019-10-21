@@ -7,6 +7,17 @@ class App extends React.Component {
   state = {
     tasks: []
   };
+  componentDidMount() {
+    let tasksInStorage = localStorage.getItem("tasksInStorage");
+    let tasksFromJson = JSON.parse(tasksInStorage);
+    if (tasksFromJson !== null) {
+      this.setState({ tasks: tasksFromJson });
+    }
+  }
+  componentDidUpdate() {
+    let tasksToStorage = JSON.stringify(this.state.tasks);
+    localStorage.setItem("tasksInStorage", tasksToStorage);
+  }
   handleAddTask = task => {
     const newTasks = [task, ...this.state.tasks];
     this.setState({ tasks: newTasks });
@@ -18,8 +29,13 @@ class App extends React.Component {
   completeTask = taskId => {
     const completeTaskArray = this.state.tasks.map(item => {
       if (item.id === taskId) {
-        item.done = true;
+        if (item.done === true) {
+          item.done = false;
+        } else {
+          item.done = true;
+        }
       }
+
       return item;
     });
     this.setState({ tasks: completeTaskArray });

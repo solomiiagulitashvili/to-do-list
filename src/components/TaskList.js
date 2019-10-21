@@ -27,7 +27,7 @@ class TaskList extends React.Component {
                     this.handleComplete(item);
                   }}
                 >
-                  done
+                  {item.done ? "Mark as uncomplete" : "Mark as complete"}
                 </Button>
                 <Button
                   className="delete"

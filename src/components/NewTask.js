@@ -25,8 +25,11 @@ class NewTask extends React.Component {
 
   validate = () => {
     const { title, text } = this.state;
-    if (title.trim() && text.trim()) {
-      // && this.props.tasksArray.includes(title)) {
+    if (
+      title.trim() &&
+      text.trim() &&
+      !this.props.tasksArray.find(item => item.title === title)
+    ) {
       return true;
     }
     return false;
