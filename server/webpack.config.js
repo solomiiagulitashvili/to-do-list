@@ -9,6 +9,9 @@ module.exports = {
   },
   mode: 'development',
   target: 'node',
+  node: {
+    __dirname: false,
+  },
   externals: [nodeExternals()],
   watch: true,
   module: {

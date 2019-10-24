@@ -1,11 +1,10 @@
 import express from 'express';
+import getTodoList from './api/getTodoList';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.status(200);
-  res.send();
-});
+
+app.get('/api/task/', getTodoList);
 
 const PORT = process.env.PORT || 5000;
 
