@@ -1,34 +1,37 @@
-import React from "react";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-import nanoId from "nano-id";
+import React from 'react';
+import {
+ Button, Form, FormGroup, Label, Input, FormText 
+} from 'reactstrap';
+import nanoId from 'nano-id';
 
 class NewTask extends React.Component {
   state = {
-    title: "",
-    text: ""
+    title: '',
+    text: '',
   };
-  handleChange = e => {
+
+  handleChange = (e) => {
     const { id, value } = e.currentTarget;
     this.setState({ [id]: value });
   };
-  handleSubmit = e => {
+
+  handleSubmit = (e) => {
     e.preventDefault();
     const { title, text } = this.state;
     this.props.onAddTask({
-      title: title,
-      text: text,
-      id: nanoId(5),
-      done: false
+      title,
+      text,
+
     });
-    this.setState({ title: "", text: "" });
+    this.setState({ title: '', text: '' });
   };
 
   validate = () => {
     const { title, text } = this.state;
     if (
-      title.trim() &&
-      text.trim() &&
-      !this.props.tasksArray.find(item => item.title === title)
+      title.trim()
+      && text.trim()
+      && !this.props.tasksArray.find((item) => item.title === title)
     ) {
       return true;
     }

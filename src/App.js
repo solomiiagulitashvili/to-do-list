@@ -1,34 +1,78 @@
-import React from "react";
-import "./App.css";
-import { TaskList } from "./components/TaskList";
-import { NewTask } from "./components/NewTask";
-import { Container, Row, Col } from "reactstrap";
+import React from 'react';
+import './App.css';
+import { Container, Row, Col } from 'reactstrap';
+import { TaskList } from './components/TaskList';
+import { NewTask } from './components/NewTask';
 
 class App extends React.Component {
   state = {
-    tasks: []
+    tasks: [],
   };
+
   componentDidMount() {
-    let tasksInStorage = localStorage.getItem("tasksInStorage");
-    let tasksFromJson = JSON.parse(tasksInStorage);
-    if (tasksFromJson !== null) {
-      this.setState({ tasks: tasksFromJson });
-    }
+    this.getTodoList();
   }
-  componentDidUpdate() {
-    let tasksToStorage = JSON.stringify(this.state.tasks);
-    localStorage.setItem("tasksInStorage", tasksToStorage);
+
+  getTodoList = () => {
+    fetch('/api/task/')
+      .then((res) => res.json())
+      .then((tasks) => {
+        this.setState({ tasks });
+      });
   }
-  handleAddTask = task => {
-    const newTasks = [task, ...this.state.tasks];
-    this.setState({ tasks: newTasks });
+
+  // componentDidMount() {
+  //   const tasksInStorage = localStorage.getItem('tasksInStorage');
+  //   const tasksFromJson = JSON.parse(tasksInStorage);
+  //   if (tasksFromJson !== null) {
+  //     this.setState({ tasks: tasksFromJson });
+  //   }
+  // }
+
+
+  // componentDidUpdate() {
+  //   const tasksToStorage = JSON.stringify(this.state.tasks);
+  //   localStorage.setItem('tasksInStorage', tasksToStorage);
+  // }
+
+  handleAddTask = (task) => {
+    fetch('/api/task/', {
+      method: 'POST',
+      body: JSON.stringify(task),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          res.json();
+        } else {
+          alert('Something gone wrong');
+        }
+      })
+      .then((tasks) => {
+        const newTasks = [task, ...this.state.tasks];
+        this.setState({ tasks: newTasks });
+        alert('Task successfully added');
+      });
   };
-  deleteTask = taskId => {
-    const newTasksArray = this.state.tasks.filter(item => item.id !== taskId);
-    this.setState({ tasks: newTasksArray });
+
+  deleteTask = (taskId) => {
+    fetch(`/api/task/${taskId}`, {
+      method: 'DELETE',
+    })
+      .then((res) => res.json())
+      .then((tasks) => {
+        const newTasksArray = this.state.tasks.filter((task) => task.id !== taskId);
+        this.setState({ tasks: newTasksArray });
+      });
+    // const newTasksArray = this.state.tasks.filter((item) => item.id !== taskId);
+    // this.setState({ tasks: newTasksArray });
   };
-  completeTask = taskId => {
-    const completeTaskArray = this.state.tasks.map(item => {
+
+  completeTask = (taskId) => {
+    const completeTaskArray = this.state.tasks.map((item) => {
       if (item.id === taskId) {
         if (item.done === true) {
           item.done = false;
@@ -41,6 +85,7 @@ class App extends React.Component {
     });
     this.setState({ tasks: completeTaskArray });
   };
+
   render() {
     return (
       <div className="App">
