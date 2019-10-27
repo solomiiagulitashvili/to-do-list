@@ -19,21 +19,7 @@ class App extends React.Component {
       .then((tasks) => {
         this.setState({ tasks });
       });
-  }
-
-  // componentDidMount() {
-  //   const tasksInStorage = localStorage.getItem('tasksInStorage');
-  //   const tasksFromJson = JSON.parse(tasksInStorage);
-  //   if (tasksFromJson !== null) {
-  //     this.setState({ tasks: tasksFromJson });
-  //   }
-  // }
-
-
-  // componentDidUpdate() {
-  //   const tasksToStorage = JSON.stringify(this.state.tasks);
-  //   localStorage.setItem('tasksInStorage', tasksToStorage);
-  // }
+  };
 
   handleAddTask = (task) => {
     fetch('/api/task/', {
@@ -64,7 +50,9 @@ class App extends React.Component {
     })
       .then((res) => res.json())
       .then((tasks) => {
-        const newTasksArray = this.state.tasks.filter((task) => task.id !== taskId);
+        const newTasksArray = this.state.tasks.filter(
+          (task) => task.id !== taskId,
+        );
         this.setState({ tasks: newTasksArray });
       });
     // const newTasksArray = this.state.tasks.filter((item) => item.id !== taskId);
@@ -72,18 +60,35 @@ class App extends React.Component {
   };
 
   completeTask = (taskId) => {
-    const completeTaskArray = this.state.tasks.map((item) => {
-      if (item.id === taskId) {
-        if (item.done === true) {
-          item.done = false;
-        } else {
-          item.done = true;
-        }
-      }
+    fetch(`/api/task/${taskId}`, {
+      method: 'PATCH',
+      crossDomain: true,
+      xhrFields: {
+        withCredentials: true,
+      },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: '',
+      },
+      data: JSON.stringify(taskId),
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((tasks) => {
+        const completeTaskArray = this.state.tasks.map((task) => {
+          if (task.id === taskId) {
+            if (task.done === true) {
+              task.done = false;
+            } else {
+              task.done = true;
+            }
+          }
 
-      return item;
-    });
-    this.setState({ tasks: completeTaskArray });
+          return task;
+        });
+        this.setState({ tasks: completeTaskArray });
+      });
   };
 
   render() {
